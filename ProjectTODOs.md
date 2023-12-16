@@ -1,7 +1,6 @@
 # Project Status
 
-- [ ] ncurses library research + install for terminal rendering
-- [ ] statically link ncurses library for easy compile
+- [ ] game library research + install
+- [ ] statically link library for easy compile
 - [ ] create makefile
 - [ ] code tetris back end mechanics
-- [ ] code rendering
