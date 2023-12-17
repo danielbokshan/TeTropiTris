@@ -1,6 +1,7 @@
 # Project Status
-
-- [ ] game library research + install (RayLib?)
-- [ ] statically link library for easy compile
+### Development will be on a Linux Machine.
+- [X] game library research + install (RayLib)
+- [X] statically link library for easy compile
 - [ ] create makefile
-- [ ] code tetris back end mechanics
+- [ ] Draw Assets
+- [ ] code tetris back end mechanics + graphics
