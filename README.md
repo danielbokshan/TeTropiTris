@@ -1,8 +1,8 @@
-# TERMINAL TETRIS
+# TeTropiTris
 
 ### [In early development]
 
-This will be a tetris clone game written in C.
+A tropical-themed falling block game!
 Project is being developed on a Linux machine.
 
 # Prerequisites

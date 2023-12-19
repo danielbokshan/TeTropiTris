@@ -43,7 +43,7 @@ void deleteRow(int row) //slides gameboard above cleared row down to fill it
     {
         for(int j=0; j<10; j++)
         {
-            gameArray[i][j] = gameArray[i-1]; //shift remaining blocks down
+            gameArray[i][j] = gameArray[i-1][j]; //shift remaining blocks down
         }
     }
 }
@@ -64,7 +64,7 @@ int main()
     Texture2D O;
     Texture2D T;
 
-    InitWindow(500, 1000, "New window");
+    InitWindow(900, 1000, "New window");
     L = LoadTexture("Assets/L.png");
     L2 = LoadTexture("Assets/L2.png");
     Z = LoadTexture("Assets/Z.png");
