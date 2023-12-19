@@ -32,9 +32,20 @@ int rowFull(int row) //checks if a given row is full; returns 0 if full, 1 if no
     return 0; //row is full.
 }
 
-void slideGameArray(int row) //slides gameboard above cleared row down to fill it
+void deleteRow(int row) //slides gameboard above cleared row down to fill it
 {
+    for(int i=0; i<10; i++)
+    {
+        gameArray[row][i] = 0; //clear the desired row
+    }
 
+    for(int i=row; i>0; i--)
+    {
+        for(int j=0; j<10; j++)
+        {
+            gameArray[i][j] = gameArray[i-1]; //shift remaining blocks down
+        }
+    }
 }
 
 
