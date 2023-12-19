@@ -1,6 +1,44 @@
 #include "include/raylib.h"
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
+//global variables & initializations
+int gameArray[20][10] = {0}; //represents the game board - 10x20
+enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
+time_t t;
+
+//game helper functions
+
+int calculatePixel(int arrayIndex) //converts from gameArray index to pixel for rendering
+{
+    return arrayIndex * 50;
+}
+
+int newTetrimino()
+{
+    //pick a random tetrimino and return it based on the enum
+    int newRandom = rand() % 7; //generates a random number btw 0 and 6
+    return newRandom;
+}
+
+int rowFull(int row) //checks if a given row is full; returns 0 if full, 1 if not full.
+{
+    for(int i=0; i<10; i++){
+        if(gameArray[row][i] != 1) {
+            return 1; //not full.
+        }
+    }
+    return 0; //row is full.
+}
+
+void slideGameArray(int row) //slides gameboard above cleared row down to fill it
+{
+
+}
+
+
+//main function
 int main()
 {
     //initialize textures and main stage
@@ -35,9 +73,13 @@ int main()
         }
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawTexture(L2, 10, 10, WHITE);
-            DrawTexture(L, 110, posY, WHITE);
-            DrawTexture(L, 260, 10, WHITE);
+            DrawRectangle(0, 0, 500, 1000, BLUE);
+            DrawTexture(L, 0, posY, WHITE);
+            DrawTexture(L, 100, 850, WHITE);
+            DrawTexture(L, 200, 850, WHITE);
+            DrawTexture(L, 300, 850, WHITE);
+            DrawTexture(L, 400, 850, WHITE);
+
         EndDrawing();
 
     }
