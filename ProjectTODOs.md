@@ -7,3 +7,7 @@
     - [X] Draw block shapes
     - [ ] Draw Independent 50x50px blocks for each color
 - [ ] code tetris back end mechanics + graphics
+    - [ ] Shape motion & rotation
+    - [ ] Clear Line Function
+            - [ ] Slide Down Function
+    - [ ] Scoring System
