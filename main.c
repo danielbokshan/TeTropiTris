@@ -3,10 +3,20 @@
 #include <time.h>
 #include <stdlib.h>
 
+//colors
+#define LIGHTBLUE (Color){135, 206, 235, 255};
+
 //global variables & initializations
 int gameArray[20][10] = {0}; //represents the game board - 10x20
 enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
 time_t t;
+
+typedef struct {
+    int id; //unique id will pair it to a tetromino
+
+
+
+} block;
 
 //game helper functions
 
@@ -84,12 +94,8 @@ int main()
         }
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawRectangle(0, 0, 500, 1000, BLUE);
-            DrawTexture(L, 0, posY, WHITE);
-            DrawTexture(L, 100, 850, WHITE);
-            DrawTexture(L, 200, 850, WHITE);
-            DrawTexture(L, 300, 850, WHITE);
-            DrawTexture(L, 400, 850, WHITE);
+            DrawRectangle(0, 0, 500, 1000, BLUE); 
+
 
         EndDrawing();
 
