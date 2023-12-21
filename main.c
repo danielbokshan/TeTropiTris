@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 //colors
-#define LIGHTBLUE (Color){135, 206, 235, 255};
+#define LIGHTBLUE (Color){135, 206, 235, 255}
 
 //global variables & initializations
 int gameArray[20][10] = {0}; //represents the game board - 10x20
@@ -13,7 +13,8 @@ time_t t;
 
 typedef struct {
     int id; //unique id will pair it to a tetromino
-
+    int x; //width
+    int y; //height
 
 
 } block;
@@ -88,15 +89,25 @@ int main()
     //window loop
     while(!WindowShouldClose())
     {
+        int position = 5;
+
         posY += 5;
-        if(posY > 850) {
-            posY = 850;
+        if(posY > 950) {
+            posY = 950;
         }
+
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawRectangle(0, 0, 500, 1000, BLUE); 
+            DrawRectangle(0, 0, 500, 1000, BLUE);
+            for(int i=0; i<10; i++)
+            {
+                DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
+                DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
+                DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
+                DrawRectangle((position+2)*50, posY-50, 50, 50, LIGHTBLUE);
 
-
+            }
+            
         EndDrawing();
 
     }
