@@ -7,20 +7,20 @@
 #define LIGHTBLUE (Color){135, 206, 235, 255}
 
 //global variables & initializations
-int gameArray[20][10] = {0}; //represents the game board - 10x20
-enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
-time_t t;
-
 typedef struct {
     int id; //unique id will pair it to a tetromino
     Color color; //color
 } block;
 
-// for (int i=0; i<20; i++) {
-//     for(int j=0; j<10; j++) {
-//         gameArray[i][j] = block(-1, WHITE);
-//     }
-// }
+enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
+time_t t;
+block gameArray[20][10] = {0}; //represents the game board - 10x20
+    //figure out how to properly allocate memory for this situation
+for(int i=0; i<20; i++) {
+    for(int j=0; j<10; j++) {
+        gameArray[i][j] = block(-1, WHITE);
+    }
+}
 
 //game helper functions
 
