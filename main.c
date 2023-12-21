@@ -13,11 +13,14 @@ time_t t;
 
 typedef struct {
     int id; //unique id will pair it to a tetromino
-    int x; //width
-    int y; //height
-
-
+    Color color; //color
 } block;
+
+// for (int i=0; i<20; i++) {
+//     for(int j=0; j<10; j++) {
+//         gameArray[i][j] = block(-1, WHITE);
+//     }
+// }
 
 //game helper functions
 
@@ -98,15 +101,20 @@ int main()
 
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawRectangle(0, 0, 500, 1000, BLUE);
-            for(int i=0; i<10; i++)
-            {
+                DrawRectangle(0, 0, 500, 1000, BLUE);
                 DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+2)*50, posY-50, 50, 50, LIGHTBLUE);
-
+            
+            for(int i=0; i<20; i++)
+            {
+                for(int j=0; j<10; j++)
+                {
+                    DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
+                }
             }
+            
             
         EndDrawing();
 
