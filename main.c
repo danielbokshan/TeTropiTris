@@ -5,6 +5,7 @@
 
 //colors
 #define LIGHTBLUE (Color){135, 206, 235, 255}
+#define BACKGROUND (Color){103, 128, 159, 255}
 
 //global variables & initializations
 typedef struct {
@@ -12,15 +13,12 @@ typedef struct {
     Color color; //color
 } block;
 
-enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
-time_t t;
-block gameArray[20][10] = {0}; //represents the game board - 10x20
+//enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
+//time_t t;
+
+//block gameArray[20][10] = {0}; //represents the game board - 10x20
     //figure out how to properly allocate memory for this situation
-for(int i=0; i<20; i++) {
-    for(int j=0; j<10; j++) {
-        gameArray[i][j] = block(-1, WHITE);
-    }
-}
+
 
 //game helper functions
 
@@ -39,7 +37,7 @@ int newTetrimino()
 int rowFull(int row) //checks if a given row is full; returns 0 if full, 1 if not full.
 {
     for(int i=0; i<10; i++){
-        if(gameArray[row][i] != 1) {
+        if(gameArray[row][i].id != -1) {
             return 1; //not full.
         }
     }
@@ -66,6 +64,24 @@ void deleteRow(int row) //slides gameboard above cleared row down to fill it
 //main function
 int main()
 {
+
+    //create and allocate memory for the game board
+    block** gameArray;
+    gameArray = (block**)malloc(20 * sizeof(block*));
+    if(gameArray == NULL) 
+    {
+        fprintf(stderr, "Could not allocate memory for the gameArray.\n");
+    }   
+    for(int i=0; i<20; i++)
+    {
+        gameArray[i] = (block*)malloc(10*sizeof(block*));
+        if(gameArray[i] == NULL)
+        {
+            fprintf(stderr, "Could not allocate memory for gameArray Rows.\n");
+        }
+    }
+
+
     //initialize textures and main stage
 
     int posY = -150;
@@ -101,7 +117,7 @@ int main()
 
         BeginDrawing();
             ClearBackground(RAYWHITE);
-                DrawRectangle(0, 0, 500, 1000, BLUE);
+                DrawRectangle(0, 0, 500, 1000, BACKGROUND);
                 DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
@@ -124,6 +140,12 @@ int main()
     CloseWindow();
 
 
+    //cleanup
+    for(int i=0; i<20; i++)     //free the gameArray memory
+    {
+        free(gameArray[i]);
+    }
+    free(gameArray);
 
     return 0;
 
