@@ -9,7 +9,7 @@
 
 //global variables & initializations
 typedef struct {
-    int id; //unique id will pair it to a tetromino
+    int id; //unique id will pair it to a tetromino - -1 means empty
     Color color; //color
 } block;
 
@@ -21,6 +21,10 @@ typedef struct {
 
 
 //game helper functions
+void background()
+{
+    DrawRectangle(0, 0, 500, 1000, BACKGROUND);
+}
 
 int calculatePixel(int arrayIndex) //converts from gameArray index to pixel for rendering
 {
@@ -34,30 +38,31 @@ int newTetrimino()
     return newRandom;
 }
 
-int rowFull(int row) //checks if a given row is full; returns 0 if full, 1 if not full.
+int rowFull(block row[10]) //checks if a given row is full - takes in a pointer to a row of 10 cols
 {
     for(int i=0; i<10; i++){
-        if(gameArray[row][i].id != -1) {
-            return 1; //not full.
+        if(row[i].id != -1) {
+            return 0; //false.
         }
     }
-    return 0; //row is full.
+    return 1; //row is full (true).
 }
 
-void deleteRow(int row) //slides gameboard above cleared row down to fill it
+void deleteRow(block row[10]) //slides gameboard above cleared row down to fill it - takes in a pointer to a row of 10 cols
 {
     for(int i=0; i<10; i++)
     {
-        gameArray[row][i] = 0; //clear the desired row
+        row[i].id = -1; //clear the desired row
+        row[i].color = BACKGROUND;
     }
 
-    for(int i=row; i>0; i--)
-    {
-        for(int j=0; j<10; j++)
-        {
-            gameArray[i][j] = gameArray[i-1][j]; //shift remaining blocks down
-        }
-    }
+    // for(int i=row; i>0; i--)
+    // {
+    //     for(int j=0; j<10; j++)
+    //     {
+    //         gameArray[i][j] = gameArray[i-1][j]; //shift remaining blocks down
+    //     }
+    // }
 }
 
 
@@ -105,10 +110,12 @@ int main()
 
     SetTargetFPS(60);
 
+    srand(time(NULL)); //random number generation
+    int position = rand() % 8;
+
     //window loop
     while(!WindowShouldClose())
     {
-        int position = 5;
 
         posY += 5;
         if(posY > 950) {
@@ -117,7 +124,8 @@ int main()
 
         BeginDrawing();
             ClearBackground(RAYWHITE);
-                DrawRectangle(0, 0, 500, 1000, BACKGROUND);
+                //DrawRectangle(0, 0, 500, 1000, BACKGROUND);
+                background();
                 DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
