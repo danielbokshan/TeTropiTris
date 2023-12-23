@@ -10,6 +10,7 @@
 //global variables & initializations
 typedef struct {
     int id; //unique id will pair it to a tetromino - -1 means empty
+    int locked;
     Color color; //color
 } block;
 
@@ -48,21 +49,45 @@ int rowFull(block row[10]) //checks if a given row is full - takes in a pointer 
     return 1; //row is full (true).
 }
 
-void deleteRow(block row[10]) //slides gameboard above cleared row down to fill it - takes in a pointer to a row of 10 cols
+//functions to draw each shape
+
+void drawL(int posY) //draws L at the top of the screen as a new shape
+{
+    int posX = 4;
+    int posY = -100;
+    DrawRectangle(posX*50, posY, 50, 50, LIGHTBLUE);
+    DrawRectangle((posX+1)*50, posY, 50, 50, LIGHTBLUE);
+    DrawRectangle((posX+2)*50, posY, 50, 50, LIGHTBLUE);
+    DrawRectangle((posX+2)*50, posY-50, 50, 50, LIGHTBLUE);
+}
+
+
+//pick a random shape drawing function
+void spawnShape()
+{
+    srand(time(NULL));
+    int num = rand() % 8;
+    
+}
+
+
+void deleteRow(block** shiftArray, int row) //slides gameboard above cleared row down to fill it - takes in a pointer to a row of 10 cols
 {
     for(int i=0; i<10; i++)
     {
-        row[i].id = -1; //clear the desired row
-        row[i].color = BACKGROUND;
+        //clear the desired row
+        shiftArray[row][i].id = -1;
+        shiftArray[row][i].color = BACKGROUND;
     }
 
-    // for(int i=row; i>0; i--)
-    // {
-    //     for(int j=0; j<10; j++)
-    //     {
-    //         gameArray[i][j] = gameArray[i-1][j]; //shift remaining blocks down
-    //     }
-    // }
+    //shift above rows down
+    for(int i=row; i>0; i--)
+    {
+        for(int j=0; j<10; j++)
+        {
+            shiftArray[i][j] = shiftArray[i-1][j]; //shift remaining blocks down
+        }
+    }
 }
 
 
@@ -86,28 +111,20 @@ int main()
         }
     }
 
+    for(int i=0; i<10; i++) 
+    {
+        for(int j=0; j<20; j++)
+        {
+            //initialize to blank squares with background color and unattached id
+            gameArray[i][j].color = BACKGROUND;
+            gameArray[i][j].id = -1;
+        }
+    }
 
-    //initialize textures and main stage
 
+    //initialize textures and main stage + settings
     int posY = -150;
-
-    Texture2D L;
-    Texture2D L2;
-    Texture2D Z;
-    Texture2D Z2;
-    Texture2D I;
-    Texture2D O;
-    Texture2D T;
-
     InitWindow(900, 1000, "New window");
-    L = LoadTexture("Assets/L.png");
-    L2 = LoadTexture("Assets/L2.png");
-    Z = LoadTexture("Assets/Z.png");
-    Z2 = LoadTexture("Assets/Z.png");
-    I = LoadTexture("Assets/I.png");
-    O = LoadTexture("Assets/O.png");
-    T = LoadTexture("Assets/T.png");
-
     SetTargetFPS(60);
 
     srand(time(NULL)); //random number generation
@@ -124,8 +141,7 @@ int main()
 
         BeginDrawing();
             ClearBackground(RAYWHITE);
-                //DrawRectangle(0, 0, 500, 1000, BACKGROUND);
-                background();
+                background(); //draw background
                 DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
                 DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
