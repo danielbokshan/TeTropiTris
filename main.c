@@ -4,8 +4,16 @@
 #include <stdlib.h>
 
 //colors
-#define LIGHTBLUE (Color){135, 206, 235, 255}
+
 #define BACKGROUND (Color){103, 128, 159, 255}
+#define PALEPINK (Color){255, 179, 186, 255}
+#define PALEYELLOW (Color){255, 255, 186, 255}
+#define PALEPURPLE (Color){199, 163, 255, 255}
+#define PALEORANGE (Color){255, 223, 186, 255}
+#define PALEGREEN (Color) {186, 255, 201, 255}
+//#define PALEBLUE (Color) {186, 255, 255, 255}
+#define LIGHTBLUE (Color){135, 206, 235, 255}
+#define PALEGRAY (Color) {190, 190, 190, 255}
 
 //global variables & initializations
 typedef struct {
@@ -53,18 +61,24 @@ int rowFull(block row[10]) //checks if a given row is full - takes in a pointer 
 
 //functions to draw each shape
 
-void drawL(int posY) //draws L at the top of the screen as a new shape
+void drawL(block** array) //draws L at the top of the screen as a new shape
 {
-    //rewrite this entire function
-    int posX = 4;
-    if(posY == -101) {
-        posY = -100;
-    }
-    //this isn't gonna work lol - it just needs to update the colors and ids of the blocks around block [4][0]
-    DrawRectangle(posX*50, posY, 50, 50, LIGHTBLUE);
-    DrawRectangle((posX+1)*50, posY, 50, 50, LIGHTBLUE);
-    DrawRectangle((posX+2)*50, posY, 50, 50, LIGHTBLUE);
-    DrawRectangle((posX+2)*50, posY-50, 50, 50, LIGHTBLUE);
+    array[4][0].id = idGlobal;
+    array[4][0].locked = 1;
+    array[4][0].color = LIGHTBLUE;
+
+    array[5][0].id = idGlobal;
+    array[5][0].locked = 1;
+    array[5][0].color = LIGHTBLUE;
+
+    array[6][0].id = idGlobal;
+    array[6][0].locked = 1;
+    array[6][0].color = LIGHTBLUE;
+    
+    array[6][1].id = idGlobal;
+    array[6][1].locked = 1;
+    array[6][1].color = LIGHTBLUE;
+    idGlobal++;
 }
 
 void drawLR()
@@ -98,24 +112,24 @@ void drawT()
 }
 
 //pick a random shape drawing function
-void spawnShape()
+void spawnShape(block** array)
 {
     srand(time(NULL));
     int num = rand() % 8;
     if(num == 0) {
-        drawL(); //spawn L
+        drawL(array); //spawn L
     } else if(num == 1) {
-        drawLR();
+        drawLR(array); //spawn L Reversed
     } else if(num == 2) {
-        drawZ();
+        drawZ(array); //spawn Z
     } else if(num == 3) {
-        drawZR();
+        drawZR(array); //spawn Z Reversed
     } else if(num == 4) {
-        drawO();
+        drawO(array); //spawn O
     } else if(num == 5) {
-        drawI();
+        drawI(array); //spawn I
     } else if(num == 6) {
-        drawT();
+        drawT(array); //spawn T
     }
 }
 
@@ -125,6 +139,7 @@ void deleteRow(block** shiftArray, int row) //slides gameboard above cleared row
     for(int i=0; i<10; i++)
     {
         //clear the desired row
+            //does this for loop even need to exist? -> everything will be moved down anyways...
         shiftArray[row][i].id = -1;
         shiftArray[row][i].color = BACKGROUND;
     }
@@ -181,7 +196,6 @@ int main()
 
 
     //initialize textures and main stage + settings
-    int posY = -150;
     InitWindow(900, 1000, "New window");
     SetTargetFPS(60);
 
@@ -192,11 +206,6 @@ int main()
     while(!WindowShouldClose())
     {
 
-        posY += 5;
-        if(posY > 950) {
-            posY = 950;
-        }
-
         BeginDrawing();
             ClearBackground(RAYWHITE);
                 background(); //draw background
@@ -205,21 +214,17 @@ int main()
                 // DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
                 // DrawRectangle((position+2)*50, posY-50, 50, 50, LIGHTBLUE);
             
-            for(int i=0; i<20; i++)
+            for(int i=0; i<10; i++)
             {
-                for(int j=0; j<10; j++)
+                for(int j=0; j<20; j++)
                 {
                     //render each block in the gameArray
                     DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
                 }
             }
-            
-            
+            spawnShape(gameArray);
         EndDrawing();
-
     }
-    
-
     CloseWindow();
 
 
