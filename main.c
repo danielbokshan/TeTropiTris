@@ -94,7 +94,7 @@ void drawI()
 
 void drawT()
 {
-    
+
 }
 
 //pick a random shape drawing function
@@ -185,8 +185,8 @@ int main()
     InitWindow(900, 1000, "New window");
     SetTargetFPS(60);
 
-    srand(time(NULL)); //random number generation
-    int position = rand() % 8;
+    // srand(time(NULL)); //random number generation
+    // int position = rand() % 8;
 
     //window loop
     while(!WindowShouldClose())
