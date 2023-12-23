@@ -54,7 +54,10 @@ int rowFull(block row[10]) //checks if a given row is full - takes in a pointer 
 void drawL(int posY) //draws L at the top of the screen as a new shape
 {
     int posX = 4;
-    int posY = -100;
+    if(posY == -101) {
+        posY = -100;
+    }
+    //this isn't gonna work lol - it just needs to update the colors and ids of the blocks around block [4][0]
     DrawRectangle(posX*50, posY, 50, 50, LIGHTBLUE);
     DrawRectangle((posX+1)*50, posY, 50, 50, LIGHTBLUE);
     DrawRectangle((posX+2)*50, posY, 50, 50, LIGHTBLUE);
@@ -83,10 +86,19 @@ void deleteRow(block** shiftArray, int row) //slides gameboard above cleared row
     //shift above rows down
     for(int i=row; i>0; i--)
     {
-        for(int j=0; j<10; j++)
+        for(int j=1; j<10; j++)
         {
-            shiftArray[i][j] = shiftArray[i-1][j]; //shift remaining blocks down
+            shiftArray[i][j] = shiftArray[i][j-1]; //shift remaining blocks down
         }
+    }
+
+    //reinitialize first row of structs to fill in for the ones that moved down
+    for(int i=0; i<10; i++)
+    {
+        //reset to background color, no id, and locked status
+        shiftArray[i][0].color = BACKGROUND;
+        shiftArray[i][0].id = -1;
+        shiftArray[i][1].locked = 1;
     }
 }
 
@@ -95,7 +107,7 @@ void deleteRow(block** shiftArray, int row) //slides gameboard above cleared row
 int main()
 {
 
-    //create and allocate memory for the game board
+    //create and allocate memory for the game board - 10rows x 20cols
     block** gameArray;
     gameArray = (block**)malloc(20 * sizeof(block*));
     if(gameArray == NULL) 
@@ -142,10 +154,10 @@ int main()
         BeginDrawing();
             ClearBackground(RAYWHITE);
                 background(); //draw background
-                DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
-                DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
-                DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
-                DrawRectangle((position+2)*50, posY-50, 50, 50, LIGHTBLUE);
+                // DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
+                // DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
+                // DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
+                // DrawRectangle((position+2)*50, posY-50, 50, 50, LIGHTBLUE);
             
             for(int i=0; i<20; i++)
             {
