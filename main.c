@@ -14,6 +14,8 @@ typedef struct {
     Color color; //color
 } block;
 
+int idGlobal = 0;
+
 //enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
 //time_t t;
 
@@ -53,6 +55,7 @@ int rowFull(block row[10]) //checks if a given row is full - takes in a pointer 
 
 void drawL(int posY) //draws L at the top of the screen as a new shape
 {
+    //rewrite this entire function
     int posX = 4;
     if(posY == -101) {
         posY = -100;
@@ -64,13 +67,56 @@ void drawL(int posY) //draws L at the top of the screen as a new shape
     DrawRectangle((posX+2)*50, posY-50, 50, 50, LIGHTBLUE);
 }
 
+void drawLR()
+{
+
+}
+
+void drawZ()
+{
+
+}
+
+void drawZR()
+{
+
+}
+
+void drawO()
+{
+
+}
+
+void drawI()
+{
+
+}
+
+void drawT()
+{
+    
+}
 
 //pick a random shape drawing function
 void spawnShape()
 {
     srand(time(NULL));
     int num = rand() % 8;
-    
+    if(num == 0) {
+        drawL(); //spawn L
+    } else if(num == 1) {
+        drawLR();
+    } else if(num == 2) {
+        drawZ();
+    } else if(num == 3) {
+        drawZR();
+    } else if(num == 4) {
+        drawO();
+    } else if(num == 5) {
+        drawI();
+    } else if(num == 6) {
+        drawT();
+    }
 }
 
 
@@ -163,6 +209,7 @@ int main()
             {
                 for(int j=0; j<10; j++)
                 {
+                    //render each block in the gameArray
                     DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
                 }
             }
