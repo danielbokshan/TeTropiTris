@@ -24,13 +24,6 @@ typedef struct {
 
 int idGlobal = 0;
 
-//enum tetriminos{L, L2, Z, Z2, I, O, T}; //for random tetrimino generator (0-6)
-//time_t t;
-
-//block gameArray[20][10] = {0}; //represents the game board - 10x20
-    //figure out how to properly allocate memory for this situation
-
-
 //game helper functions
 void background()
 {
@@ -40,13 +33,6 @@ void background()
 int calculatePixel(int arrayIndex) //converts from gameArray index to pixel for rendering
 {
     return arrayIndex * 50;
-}
-
-int newTetrimino()
-{
-    //pick a random tetrimino and return it based on the enum
-    int newRandom = rand() % 7; //generates a random number btw 0 and 6
-    return newRandom;
 }
 
 int rowFull(block row[10]) //checks if a given row is full - takes in a pointer to a row of 10 cols
@@ -74,16 +60,32 @@ void drawL(block** array) //draws L at the top of the screen as a new shape
     array[6][0].id = idGlobal;
     array[6][0].locked = 1;
     array[6][0].color = LIGHTBLUE;
-    
+
     array[6][1].id = idGlobal;
     array[6][1].locked = 1;
     array[6][1].color = LIGHTBLUE;
+    printf("idGlobal: %d\n", idGlobal);
     idGlobal++;
 }
 
-void drawLR()
+void drawLR(block** array)
 {
+    array[4][0].id = idGlobal;
+    array[4][0].locked = 1;
+    array[4][0].color = PALEPINK;
 
+    array[4][1].id = idGlobal;
+    array[4][1].locked = 1;
+    array[4][1].color = PALEPINK;
+
+    array[5][0].id = idGlobal;
+    array[5][0].locked = 1;
+    array[5][0].color = PALEPINK;
+
+    array[6][0].id = idGlobal;
+    array[6][0].locked = 1;
+    array[6][0].color = PALEPINK;
+    idGlobal++;
 }
 
 void drawZ()
@@ -198,6 +200,7 @@ int main()
     //initialize textures and main stage + settings
     InitWindow(900, 1000, "New window");
     SetTargetFPS(60);
+    int frameCounter = 0;
 
     // srand(time(NULL)); //random number generation
     // int position = rand() % 8;
@@ -208,11 +211,7 @@ int main()
 
         BeginDrawing();
             ClearBackground(RAYWHITE);
-                background(); //draw background
-                // DrawRectangle(position*50, posY, 50, 50, LIGHTBLUE);
-                // DrawRectangle((position+1)*50, posY, 50, 50, LIGHTBLUE);
-                // DrawRectangle((position+2)*50, posY, 50, 50, LIGHTBLUE);
-                // DrawRectangle((position+2)*50, posY-50, 50, 50, LIGHTBLUE);
+            background(); //draw background
             
             for(int i=0; i<10; i++)
             {
@@ -222,8 +221,13 @@ int main()
                     DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
                 }
             }
-            spawnShape(gameArray);
+            //figure out frame time
+            if(frameCounter == 0)
+            {
+                drawLR(gameArray);
+            }
         EndDrawing();
+        frameCounter++;
     }
     CloseWindow();
 
