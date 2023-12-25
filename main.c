@@ -50,19 +50,19 @@ int rowFull(block row[10]) //checks if a given row is full - takes in a pointer 
 void drawL(block** array) //draws L at the top of the screen as a new shape
 {
     array[4][0].id = idGlobal;
-    array[4][0].locked = 1;
+    array[4][0].locked = 0;
     array[4][0].color = LIGHTBLUE;
 
     array[5][0].id = idGlobal;
-    array[5][0].locked = 1;
+    array[5][0].locked = 0;
     array[5][0].color = LIGHTBLUE;
 
     array[6][0].id = idGlobal;
-    array[6][0].locked = 1;
+    array[6][0].locked = 0;
     array[6][0].color = LIGHTBLUE;
 
     array[6][1].id = idGlobal;
-    array[6][1].locked = 1;
+    array[6][1].locked = 0;
     array[6][1].color = LIGHTBLUE;
     printf("idGlobal: %d\n", idGlobal);
     idGlobal++;
@@ -71,19 +71,19 @@ void drawL(block** array) //draws L at the top of the screen as a new shape
 void drawLR(block** array)
 {
     array[4][0].id = idGlobal;
-    array[4][0].locked = 1;
+    array[4][0].locked = 0;
     array[4][0].color = PALEPINK;
 
     array[4][1].id = idGlobal;
-    array[4][1].locked = 1;
+    array[4][1].locked = 0;
     array[4][1].color = PALEPINK;
 
     array[5][0].id = idGlobal;
-    array[5][0].locked = 1;
+    array[5][0].locked = 0;
     array[5][0].color = PALEPINK;
 
     array[6][0].id = idGlobal;
-    array[6][0].locked = 1;
+    array[6][0].locked = 0;
     array[6][0].color = PALEPINK;
     idGlobal++;
 }
@@ -138,14 +138,6 @@ void spawnShape(block** array)
 
 void deleteRow(block** shiftArray, int row) //slides gameboard above cleared row down to fill it - takes in a pointer to a row of 10 cols
 {
-    for(int i=0; i<10; i++)
-    {
-        //clear the desired row
-            //does this for loop even need to exist? -> everything will be moved down anyways...
-        shiftArray[row][i].id = -1;
-        shiftArray[row][i].color = BACKGROUND;
-    }
-
     //shift above rows down
     for(int i=row; i>0; i--)
     {
@@ -161,7 +153,31 @@ void deleteRow(block** shiftArray, int row) //slides gameboard above cleared row
         //reset to background color, no id, and locked status
         shiftArray[i][0].color = BACKGROUND;
         shiftArray[i][0].id = -1;
-        shiftArray[i][1].locked = 1;
+        shiftArray[i][0].locked = 1;
+    }
+}
+
+void timeStep(block** shiftArray)
+{
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<20; j++)
+        {
+            if(shiftArray[i][j].locked == 0)
+            {
+                //shift unlocked blocks down
+                shiftArray[i][j+1].color = shiftArray[i][j].color;
+                shiftArray[i][j+1].id = shiftArray[i][j].id;
+                shiftArray[i][j+1].locked = shiftArray[i][j].locked;
+
+                //change above blocks back to background
+                // shiftArray[i][j].color = BACKGROUND;
+                // shiftArray[i][j].id = -1;
+                // shiftArray[i][j].locked = 1;
+
+                //LOGIC ERROR HERE - continuously moves blocks to the bottom
+            }
+        }
     }
 }
 
@@ -193,6 +209,7 @@ int main()
             //initialize to blank squares with background color and unattached id
             gameArray[i][j].color = BACKGROUND;
             gameArray[i][j].id = -1;
+            gameArray[i][j].locked = 1;
         }
     }
 
@@ -200,7 +217,9 @@ int main()
     //initialize textures and main stage + settings
     InitWindow(900, 1000, "New window");
     SetTargetFPS(60);
-    int frameCounter = 0;
+    float frameCounterFloat = 0.;
+    int frameCounterInt = 0;
+    int lastFrame = 0;
 
     // srand(time(NULL)); //random number generation
     // int position = rand() % 8;
@@ -208,6 +227,15 @@ int main()
     //window loop
     while(!WindowShouldClose())
     {
+        //time logic
+        frameCounterFloat += GetFrameTime();
+        frameCounterInt = frameCounterFloat;
+        printf("FrameCounterInt: %d\n", frameCounterInt);
+        if(frameCounterInt - lastFrame > 0)
+        {
+            timeStep(gameArray);
+            lastFrame = frameCounterInt;
+        }
 
         BeginDrawing();
             ClearBackground(RAYWHITE);
@@ -221,13 +249,10 @@ int main()
                     DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
                 }
             }
-            //figure out frame time
-            if(frameCounter == 0)
-            {
+            if(IsKeyPressed(KEY_SPACE)) {
                 drawLR(gameArray);
             }
         EndDrawing();
-        frameCounter++;
     }
     CloseWindow();
 
