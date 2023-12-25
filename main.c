@@ -229,21 +229,21 @@ void deleteRow(block array[10][20], int row) //slides gameboard above cleared ro
 
 void timeStep(block array[10][20])
 {
-    for(int j=1; j<19; j+=1)
+    for(int j=1; j<20; j+=1)
     {
         for(int i=0; i<10; i++)
         {
-            if(array[i][j].locked == 0)
+            if(array[i][j-1].locked == 0)
             {
                 //shift unlocked blocks down
-                array[i][j+1].color = array[i][j].color;
-                array[i][j+1].id = array[i][j].id;
-                array[i][j+1].locked = array[i][j].locked;
+                array[i][j].color = array[i][j-1].color;
+                array[i][j].id = array[i][j-1].id;
+                array[i][j].locked = array[i][j-1].locked;
 
                 // change above blocks back to background
-                array[i][j].color = BACKGROUND;
-                array[i][j].id = -1;
-                array[i][j].locked = 1;
+                array[i][j-1].color = BACKGROUND;
+                array[i][j-1].id = -1;
+                array[i][j-1].locked = 1;
 
                 //LOGIC ERROR HERE
             }
