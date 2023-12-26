@@ -20,6 +20,7 @@ typedef struct {
     int id; //unique id will pair it to a tetromino - -1 means empty
     int locked;
     Color color; //color
+    int moved;
 } block;
 
 int idGlobal = 0;
@@ -60,7 +61,6 @@ void drawL(block array[10][20]) //draws L at the top of the screen as a new shap
     array[6][1].id = idGlobal;
     array[6][1].locked = 0;
     array[6][1].color = LIGHTBLUE;
-    printf("idGlobal: %d\n", idGlobal);
     idGlobal++;
 }
 
@@ -229,24 +229,34 @@ void deleteRow(block array[10][20], int row) //slides gameboard above cleared ro
 
 void timeStep(block array[10][20])
 {
-    for(int j=1; j<20; j+=1)
+    for(int j=1; j<20; j++)
     {
         for(int i=0; i<10; i++)
         {
-            if(array[i][j-1].locked == 0)
+            if(array[i][j-1].locked == 0 && array[i-1][j-1].moved == 0)
             {
                 //shift unlocked blocks down
                 array[i][j].color = array[i][j-1].color;
                 array[i][j].id = array[i][j-1].id;
                 array[i][j].locked = array[i][j-1].locked;
 
-                // change above blocks back to background
+                //change above blocks back to background
                 array[i][j-1].color = BACKGROUND;
                 array[i][j-1].id = -1;
                 array[i][j-1].locked = 1;
 
+                array[i][j].moved = 1;
+
                 //LOGIC ERROR HERE
             }
+        }
+    }
+
+    for(int j=1; j<20; j+=1)
+    {
+        for(int i=0; i<10; i++)
+        {
+            array[i][j].moved = 0;
         }
     }
 }
@@ -263,10 +273,11 @@ int main()
     {
         for(int i=0; i<10; i++)
         {
-            //initialize to blank squares with background color and unattached id
-            gameArray[i][j].color = BACKGROUND;
-            gameArray[i][j].id = -1;
-            gameArray[i][j].locked = 1;
+            //initialize to blank squares
+            gameArray[i][j].color = BACKGROUND; //bg color
+            gameArray[i][j].id = -1;            //no id
+            gameArray[i][j].locked = 1;         //locked status
+            gameArray[i][j].moved = 0;          //not moved
         }
     }
 
@@ -293,6 +304,10 @@ int main()
             lastFrame = frameCounterInt;
         }
 
+        if(lastFrame % 3 == 0) {
+            spawnShape(gameArray);
+        }
+
         BeginDrawing();
             ClearBackground(RAYWHITE);
             //background(); //draw background
@@ -304,9 +319,6 @@ int main()
                     //render each block in the gameArray
                     DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
                 }
-            }
-            if(IsKeyPressed(KEY_SPACE)) {
-                spawnShape(gameArray);
             }
         EndDrawing();
     }
