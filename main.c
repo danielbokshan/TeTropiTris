@@ -298,14 +298,14 @@ int main()
         frameCounterFloat += GetFrameTime();
         frameCounterInt = frameCounterFloat;
         printf("FrameCounterInt: %d\n", frameCounterInt);
+        if(lastFrame % 7 == 0)
+        {
+            spawnShape(gameArray);
+        }
         if(frameCounterInt - lastFrame > 0)
         {
             timeStep(gameArray);
             lastFrame = frameCounterInt;
-        }
-
-        if(lastFrame % 3 == 0) {
-            spawnShape(gameArray);
         }
 
         BeginDrawing();
