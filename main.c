@@ -20,10 +20,11 @@ typedef struct {
     int id; //unique id will pair it to a tetromino - -1 means empty
     int locked;
     Color color; //color
-    int moved;
+    int moved; //for timestep function - checks to make sure shapes aren't moved twice in 1 step
 } block;
 
-int idGlobal = 0;
+int idGlobal = 0; //shape ids - counter
+int moving = 0; //current moving shape - boolean (0=false)
 
 //game helper functions
 
@@ -44,7 +45,7 @@ int rowFull(block row[10]) //checks if a given row is full - takes in a pointer 
 
 //functions to draw each shape
 
-void drawL(block array[10][20]) //draws L at the top of the screen as a new shape
+void drawL(block array[10][20]) //adds L to top of gameArray data structure
 {
     array[4][0].id = idGlobal;
     array[4][0].locked = 0;
@@ -64,7 +65,7 @@ void drawL(block array[10][20]) //draws L at the top of the screen as a new shap
     idGlobal++;
 }
 
-void drawLR(block array[10][20])
+void drawLR(block array[10][20]) //adds reversed L to top of gameArray data structure
 {
     array[4][0].id = idGlobal;
     array[4][0].locked = 0;
@@ -84,7 +85,7 @@ void drawLR(block array[10][20])
     idGlobal++;
 }
 
-void drawZ(block array[10][20])
+void drawZ(block array[10][20]) //adds Z to top of gameArray data structure
 {
     array[4][0].id = idGlobal;
     array[4][0].locked = 0;
@@ -104,7 +105,7 @@ void drawZ(block array[10][20])
     idGlobal++;
 }
 
-void drawZR(block array[10][20])
+void drawZR(block array[10][20]) //adds reversed Z to top of gameArray data structure
 {
     array[3][0].id = idGlobal;
     array[3][0].locked = 0;
@@ -124,7 +125,7 @@ void drawZR(block array[10][20])
     idGlobal++;
 }
 
-void drawO(block array[10][20])
+void drawO(block array[10][20])//adds O to top of gameArray data structure
 {
     array[4][0].id = idGlobal;
     array[4][0].locked = 0;
@@ -144,7 +145,7 @@ void drawO(block array[10][20])
     idGlobal++;
 }
 
-void drawI(block array[10][20])
+void drawI(block array[10][20]) //adds I to top of gameArray data structure
 {
     array[3][0].id = idGlobal;
     array[3][0].locked = 0;
@@ -164,7 +165,7 @@ void drawI(block array[10][20])
     idGlobal++;
 }
 
-void drawT(block array[10][20])
+void drawT(block array[10][20]) //adds T to top of gameArray data structure
 {
     array[4][0].id = idGlobal;
     array[4][0].locked = 0;
@@ -184,8 +185,8 @@ void drawT(block array[10][20])
     idGlobal++;
 }
 
-//pick a random shape drawing function
-void spawnShape(block array[10][20])
+
+void spawnShape(block array[10][20]) //pick a random shape to spawn
 {
     srand(time(NULL));
     int num = rand() % 8;
@@ -261,7 +262,6 @@ void timeStep(block array[10][20])
     }
 }
 
-
 //main function
 int main()
 {
@@ -288,9 +288,6 @@ int main()
     int frameCounterInt = 0;
     int lastFrame = 0;
 
-    // srand(time(NULL)); //random number generation
-    // int position = rand() % 8;
-
     //window loop
     while(!WindowShouldClose())
     {
@@ -308,15 +305,13 @@ int main()
             lastFrame = frameCounterInt;
         }
 
-        BeginDrawing();
+        BeginDrawing(); //everything in here continuously renders the screen
             ClearBackground(RAYWHITE);
-            //background(); //draw background
-            
             for(int j=0; j<20; j++)
             {
                 for(int i=0; i<10; i++)
                 {
-                    //render each block in the gameArray
+                    //render each block in the gameArray based on struct info
                     DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
                 }
             }
