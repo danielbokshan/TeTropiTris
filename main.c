@@ -229,7 +229,7 @@ void deleteRow(block array[10][20], int row) //slides gameboard above cleared ro
 
 void timeStep(block array[10][20])
 {
-    for(int j=1; j<20; j++)
+    for(int j=19; j>0; j--)
     {
         for(int i=0; i<10; i++)
         {
