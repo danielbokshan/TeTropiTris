@@ -294,7 +294,6 @@ int main()
         //time logic
         frameCounterFloat += GetFrameTime();
         frameCounterInt = frameCounterFloat;
-        printf("FrameCounterInt: %d\n", frameCounterInt);
         if(lastFrame % 7 == 0)
         {
             spawnShape(gameArray);
