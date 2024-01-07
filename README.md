@@ -13,7 +13,7 @@ Project is being developed on a Linux machine.
 - [X] Game library research + install (RayLib)
     - [X] Statically link library for easy compile
 - [X] Create makefile
-- [ ] Draw Assets
+- [X] Draw Assets
     - [X] Draw block shapes
     - [X] Draw Independent 50x50px blocks for each color
 - [ ] Code tetris back end mechanics + graphics
