@@ -23,3 +23,6 @@ Project is being developed on a Linux machine.
     - [ ] Clear Line Function
             - [ ] Slide Down Function
     - [ ] Scoring System
+
+# Known Bugs
+- Pieces sometimes generate in doubles
