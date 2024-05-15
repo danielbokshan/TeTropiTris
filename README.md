@@ -3,7 +3,7 @@
 ### [In Development]
 
 A tropical-themed falling block game!
-Project is being developed on a Linux machine.
+Project is being developed on a Linux machine in C with Raylib Game Library.
 
 # Prerequisites
 - gcc (duh)

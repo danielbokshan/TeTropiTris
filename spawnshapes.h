@@ -13,7 +13,7 @@
 #define PALEGRAY (Color) {190, 190, 190, 255}
 
 
-//global variables & initializations
+//global variables
 extern int idGlobal; //shape ids - counter
 extern int moving; //current moving shape - boolean (0=false)
 
@@ -25,7 +25,7 @@ typedef struct {
     int moved; //for timestep function - checks to make sure shapes aren't moved twice in 1 step
 } block;
 
-//spawn functions for each game piece type
+//forward declarations - spawn functions for each game piece type
 void drawL(block array[10][20]);
 void drawLR(block array[10][20]);
 void drawZ(block array[10][20]);
