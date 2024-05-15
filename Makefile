@@ -2,19 +2,18 @@ CC := gcc
 CFLAGS := -Wall
 LDFLAGS := -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
-SRCS := main.c
-OBJS := $(SRCS:.c=.o)
-TARGET := game
+SRCS := main.c spawnshapes.c
+TARGET := game.exe
 
 .PHONY: all clean
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(TARGET)
