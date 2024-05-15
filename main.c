@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "spawnshapes.h"
 
+int gameOver = 0;
+
 // game helper functions
 int calculatePixel(int arrayIndex) // converts from gameArray index to pixel for rendering
 {
@@ -159,7 +161,7 @@ int main()
         {
             for (int i = 0; i < 10; i++)
             {
-                // render each block in the gameArray based on struct info
+                // render each block in the gameArray based on block info
                 DrawRectangle(calculatePixel(i), calculatePixel(j), 50, 50, gameArray[i][j].color);
             }
         }
