@@ -21,7 +21,7 @@ Project is being developed on a Linux machine.
     - [ ] Collision mechanics (also motion)
     - [ ] Rotation
     - [ ] Clear Line Function
-            - [ ] Slide Down Function
+        - [ ] Slide Down Function
     - [ ] Scoring System
 - [ ] Refactor of code for better organization / compile
 
